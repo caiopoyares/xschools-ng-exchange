@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+    ng-app-prod:
+        container_name: xschools-ng-app-prod
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '8081:80'
