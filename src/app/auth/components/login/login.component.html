@@ -23,9 +23,12 @@
           <input type="text" name="code" placeholder="Verification Code" ngModel>
           <input type="submit" value="Login">
           <div class="login_btn">
-            <a routerLink="/login" routerLinkActive="active">Return to login</a>
+            <a (click)="returnToLogin()">Return to login</a>
           </div>
         </form>
+        <div *ngIf='this.codeErrorMessage' class='error-warning'>
+          <p>{{codeErrorMessage}}</p>
+        </div>
       </div>
   </div>
 </div>

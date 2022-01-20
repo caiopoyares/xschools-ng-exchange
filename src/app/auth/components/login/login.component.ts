@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit {
         },
         (err) => {
           console.log(err);
-          this.codeErrorMessage = 'The code does not match.';
+          this.codeErrorMessage =
+            'Error during the verification code authentication.';
         }
       );
   }
@@ -62,5 +63,12 @@ export class LoginComponent implements OnInit {
         this.isNew = true;
       }
     });
+  }
+
+  returnToLogin() {
+    this.email = '';
+    this.emailSent = false;
+    this.errorMessage = '';
+    this.codeErrorMessage = '';
   }
 }
