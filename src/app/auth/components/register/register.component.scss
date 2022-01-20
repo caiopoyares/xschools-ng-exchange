@@ -27,12 +27,12 @@
     flex-direction: column;
 
     input {
-      // width: 100%;
       margin-bottom: 0.5rem;
       padding: 0.5rem;
     }
 
     input[type="submit"] {
+      cursor: pointer;
       text-transform: uppercase;
       margin-top: 1rem;
       background-color: rgb(255, 56, 92);
@@ -44,9 +44,16 @@
     }
   }
 
+  .error-warning {
+    color: red;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
   .login_btn {
     text-align: center;
     text-transform: uppercase;
+    cursor: pointer;
 
     a {
       font-size: 0.8rem;

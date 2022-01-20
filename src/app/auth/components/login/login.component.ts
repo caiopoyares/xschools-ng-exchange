@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ApiService } from './../../../services/api.service';
-import { AuthService } from './../../../services/auth.service';
-import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -11,50 +10,57 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  isLogin: boolean = false;
+  isNew: boolean = false;
+  email: string = '';
+  emailSent: boolean = false;
   errorMessage?: string;
+  codeErrorMessage?: string;
 
-  constructor(
-    private _api: ApiService,
-    private _auth: AuthService,
-    private _router: Router
-  ) {}
+  constructor(private _api: ApiService, private _route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.isUserLogin();
+    this.isUserNew();
   }
 
   onSubmit(form: NgForm) {
-    console.log('Your form data : ', form.value);
+    this.isNew = false;
     this._api.postRequest('user/login', form.value).subscribe(
       (res: any) => {
-        if (res.status) {
-          console.log(res);
-          this._auth.setDataInLocalStorage(
-            'userData',
-            JSON.stringify(res.data)
-          );
-          this._auth.setDataInLocalStorage('token', res.token);
-          window.location.href = environment.react_url;
-        } else {
-          console.log(res);
-        }
+        console.log(res);
+        this.errorMessage = '';
+        this.emailSent = true;
+        this.email = form.value.email;
       },
       (err) => {
-        this.errorMessage = err['error'].message;
+        console.log(err);
+        this.errorMessage = 'Email not found. Please try again!';
       }
     );
   }
 
-  isUserLogin() {
-    console.log(this._auth.getUserDetails());
-    if (this._auth.getUserDetails() != null) {
-      this.isLogin = true;
-    }
+  onCodeSubmit(form: NgForm) {
+    this._api
+      .postRequest('user/otp_validation', {
+        email: this.email,
+        code: form.value.code,
+      })
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          document.location.href = environment.react_url;
+        },
+        (err) => {
+          console.log(err);
+          this.codeErrorMessage = 'The code does not match.';
+        }
+      );
   }
 
-  logout() {
-    this._auth.clearStorage();
-    this._router.navigate(['']);
+  isUserNew() {
+    this._route.queryParams.subscribe((params) => {
+      if (params['new']) {
+        this.isNew = true;
+      }
+    });
   }
 }

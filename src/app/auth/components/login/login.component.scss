@@ -27,12 +27,12 @@
     flex-direction: column;
 
     input {
-      // width: 100%;
       margin-bottom: 0.5rem;
       padding: 0.5rem;
     }
 
     input[type="submit"] {
+      cursor: pointer;
       text-transform: uppercase;
       margin-top: 1rem;
       background-color: rgb(255, 56, 92);
@@ -44,9 +44,31 @@
     }
   }
 
-  .register_btn {
+  .account-warning {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: green;
+  }
+
+  .error-warning {
+    text-align: center;
+    margin-top: 1rem;
+    color: red;
+  }
+
+  .code-title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .register_btn,
+  .login_btn {
     text-align: center;
     text-transform: uppercase;
+    cursor: pointer;
 
     a {
       font-size: 0.8rem;

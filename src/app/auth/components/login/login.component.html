@@ -1,20 +1,31 @@
 <div class="container">
   <div class="login-container">
-    <div *ngIf='!this.isLogin'>
       <h2 class='logo'>XSchools</h2>
-      <h4 class="title">Login</h4>
-      <form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
-        <input type="text" name="username" placeholder="Username" ngModel>
-        <input type="password" name="password" placeholder="Password" ngModel>
-        <input type="submit" value="Login">
-        <div class="register_btn">
-          <a routerLink="/register" routerLinkActive="active">Register</a>
+      <h4 class="title" *ngIf="!this.emailSent">Login</h4>
+      <div *ngIf="this.isNew"  class='account-warning'>
+        <p>Account created successfully!</p>
+      </div>
+      <div *ngIf="!this.emailSent">
+        <form  #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+          <input type="text" name="email" placeholder="Email" ngModel>
+          <input type="submit" value="Send code to email">
+          <div class="register_btn">
+            <a routerLink="/register" routerLinkActive="active">Register</a>
+          </div>
+        </form>
+        <div *ngIf='this.errorMessage' class='error-warning'>
+          <p>{{errorMessage}}</p>
         </div>
-      </form>
-    </div>
-    <div *ngIf='this.isLogin'>
-      <h1>You are logged in</h1>
-      <button (click)='logout()'>Logout</button>
-    </div>
+      </div>
+      <div *ngIf="this.emailSent">
+        <h4 class="code-title">We sent the verification code to your email. Please enter the code below.</h4>
+        <form  #codeForm="ngForm" (ngSubmit)="onCodeSubmit(codeForm)">
+          <input type="text" name="code" placeholder="Verification Code" ngModel>
+          <input type="submit" value="Login">
+          <div class="login_btn">
+            <a routerLink="/login" routerLinkActive="active">Return to login</a>
+          </div>
+        </form>
+      </div>
   </div>
 </div>
