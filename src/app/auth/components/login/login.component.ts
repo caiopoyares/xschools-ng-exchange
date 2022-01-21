@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   onCodeSubmit(form: NgForm) {
     this._api
-      .postRequest('user/otp_validation', {
+      .postRequest('user/otp-validation', {
         email: this.email,
         code: form.value.code,
       })
